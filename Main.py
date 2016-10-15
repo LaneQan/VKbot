@@ -29,10 +29,13 @@ def secondcab(s):
     if s.count(' ') == 2:
         return s[s.index(' ')+1:s.rindex(' ')]
     elif s.count(' ') == 1:
-        return s[s.index(' '):len(s)]
+        return s
 
 def firstcab(s):
-    return s[0:s.index(' ')]
+    if s.count(' ') == 1:
+        return s[0:s.index(' ')]
+    else:
+        return s
 
 
 
@@ -56,20 +59,24 @@ for p in messages['items']:
         for index, d in enumerate(lessons['data']['groups']):
             if d['title'] == group:
                 for k in lessons['data']['groups'][index]['lessons']:
+                    s = s + 'Номер пары: ' + str(k['number']) + '\n'
                     if '3' in k['lesson']:
-                        s = s + 'Номер пары: ' + str(k['number']) + '\n'
                         s = s + (firstgroup(k['lesson']) + ' || кабинет: ' + firstcab(k['audience']) + '\n')
                         s = s + (secondgroup(k['lesson']) + ' || кабинет: ' + secondcab(k['audience']) + '\n')
                         s = s + (thirdgroup(k['lesson']) + ' || кабинет: ' + thirdcab(k['audience']) + '\n')
                         s = s + '                                                  \n'
-                    elif '2' in k['lesson']:
-                        s = s + 'Номер пары: ' + str(k['number']) + '\n'
-                        if '1' in k['lesson']:
-                            s = s + (firstgroup(k['lesson']) + ' || кабинет: ' + firstcab(k['audience']) + '\n')
-                        s = s + (secondgroup(k['lesson']) + ' || кабинет: ' + secondcab(k['audience']) + '\n')
+                    elif '2' in k['lesson'] and '1' not in k['lesson']:
+                        s = s + (secondgroup(k['lesson']) + ' || кабинет: ' + firstcab(k['audience']) + '\n')
                         s = s + '                                                  \n'
+                    elif '1' in k['lesson'] and '2' not in k['lesson']:
+                        s = s + (firstgroup(k['lesson']) + ' || кабинет: ' + firstcab(k['audience']) + '\n')
+                        s = s + '                                                  \n'
+                    elif '1' in k['lesson'] and '2' in k['lesson']:
+                        s = s + (firstgroup(k['lesson']) + ' || кабинет: ' + firstcab(k['audience']) + '\n')
+                        s = s + (secondgroup(k['lesson']) + ' || кабинет: ' + firstcab(k['audience']) + '\n')
+                        s = s + '                                                  \n'
+
                     else:
-                         s = s + 'Номер пары: ' + str(k['number']) + '\n'
                          s = s + (k['lesson'] + ' || кабинет: ' + k['audience'] + '\n')
                          s = s + '                                                  \n'
                 break
