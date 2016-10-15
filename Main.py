@@ -29,7 +29,7 @@ def secondcab(s):
     if s.count(' ') == 2:
         return s[s.index(' ')+1:s.rindex(' ')]
     elif s.count(' ') == 1:
-        return s
+        return s[s.index(' '):len(s)]
 
 def firstcab(s):
     if s.count(' ') == 1 or s.count(' ') == 2:
@@ -50,7 +50,10 @@ vkid = ''
 
 
 messages = vkapi.messages.get(out=0, count=10)
+
 s = '                                                  \n'
+
+
 for p in messages['items']:
     if 'Расписание' in p['body']:
         vkid = p['user_id']
@@ -74,7 +77,7 @@ for p in messages['items']:
                         s = s + '                                                  \n'
                     elif '1' in k['lesson'] and '2' in k['lesson']:
                         s = s + (firstgroup(k['lesson']) + ' || кабинет: ' + firstcab(k['audience']) + '\n')
-                        s = s + (secondgroup(k['lesson']) + ' || кабинет: ' + firstcab(k['audience']) + '\n')
+                        s = s + (secondgroup(k['lesson']) + ' || кабинет: ' + secondcab(k['audience']) + '\n')
                         s = s + '                                                  \n'
 
                     else:
@@ -83,6 +86,4 @@ for p in messages['items']:
                 break
         break
 vkapi.messages.send(message=s, user_id=vkid)
-print(messages)
 
-#print(lessons['title'][0]['lesson'])
