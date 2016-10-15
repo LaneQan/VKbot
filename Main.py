@@ -32,10 +32,11 @@ def secondcab(s):
         return s
 
 def firstcab(s):
-    if s.count(' ') == 1:
+    if s.count(' ') == 1 or s.count(' ') == 2:
         return s[0:s.index(' ')]
     else:
         return s
+
 
 
 
@@ -82,6 +83,6 @@ for p in messages['items']:
                 break
         break
 vkapi.messages.send(message=s, user_id=vkid)
-
+print(messages)
 
 #print(lessons['title'][0]['lesson'])
