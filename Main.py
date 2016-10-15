@@ -17,13 +17,13 @@ vkapi = vk.API(session, timeout=10, v='5.58')
 r = requests.get('http://s1.al3xable.me/method/getStudent')
 lessons = r.json()
 
-vkid = 276887954
-
+vkid = ''
 
 messages = vkapi.messages.get(out=0, count=10)
 s = ''
 for p in messages['items']:
     if 'Расписание' in p['body']:
+        vkid = p['user_id']
         group = p['body']
         group = group.replace(' ', '')
         group = group.replace('Расписание', '')
@@ -31,6 +31,7 @@ for p in messages['items']:
             if d['title'] == group:
                 for k in lessons['data']['groups'][index]['lessons']:
                     s = s + (k['lesson'] + 'в кабинете(ах) ' + k['audience'] + '\n')
+                    s = s + '________________________________________________\n'
                 break
         break
 vkapi.messages.send(message=s, user_id=vkid)
